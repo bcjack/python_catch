@@ -24,7 +24,6 @@ def Usage():
     print '1、 --site 参数用来指定抓取的url地址'
     print '2、 --max_size 参数用来指定抓取资源的上限'
     print '3、运行格式为: python spider_baichunjin.py --site http://www.hao123.com/ --max_size 1000'
-    print '4、如果只想抓取链接,可以通过添加"--no_save"来取消内容保存'
     print '################################'
 
 #文本存储url处理
@@ -86,7 +85,7 @@ def saveLog(n, url):
     return n 
 		
 #爬取资源上限控制
-def spiderControl(baseURL,max_size,rtv):
+def spiderControl(baseURL,max_size):
     url_list = []
     url_list.append(baseURL)
     n = 1
@@ -101,8 +100,7 @@ def spiderControl(baseURL,max_size,rtv):
             else:
                 print '第%r个资源: %r' %(n,url)
             saveLog(n, url)
-            if rtv == 0:
-                saveResource(url, str(n))
+            saveResource(url, str(n))
             n = n + 1
             if len(url_list) < max_size:
                 urllist = getURL(url)
@@ -131,12 +129,7 @@ def processCmdLine():
             else:
                 print"错误的max_size参数"
                 sys.exit()
-            if (sys.argv[5] == "--no_save"):
-                n = 1
-                print '不保存链接资源文件'
-            else:
-                n = 0
-        spiderControl(url, max_size, n)				
+        spiderControl(url, max_size)				
     else:
         print "没有指定命令行参数,请重新运行程序,可以通过--help命令来获取帮助."
         sys.exit()
